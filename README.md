@@ -21,5 +21,5 @@ py xlsx-to-text-mapper.py /x path\to\excel.xlsx /t path\to\template.txt /o path\
 On POSIX
 
 ```bash
-python3 xlsx-to-text-mapper.py -x path/to/excel.xlsx -t path/to/template.txt -o path/to/output.txt
+python3 ./xlsx-to-text-mapper.py -x path/to/excel.xlsx -t path/to/template.txt -o path/to/output.txt
 ```
