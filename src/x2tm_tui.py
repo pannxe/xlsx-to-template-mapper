@@ -1,30 +1,8 @@
 #!/usr/bin/python3
 
 import argparse
-import xlrd
+import x2tm_core 
 import os
-
-def phase_excel(exc, tmp, opt):
-    excf = xlrd.open_workbook(exc)
-    sheet = excf.sheet_by_index(0)
-    with open(tmp) as f:
-        template = f.read()
-
-    out = ""
-
-    for i in range(1, sheet.nrows):
-        s = template
-        for j in range(sheet.ncols):
-            s = s.replace(
-                "[{}]".format(str(sheet.cell_value(0, j))), str(sheet.cell_value(i, j))
-            )
-        out += s + "\n"
-
-    out = out.replace(".0", "")
-    with open(opt, "w") as f:
-        f.write(out)
-    print(out)
-
 
 def main():
     parser = argparse.ArgumentParser()
@@ -38,7 +16,7 @@ def main():
         "--output", "-o", help="path to output file", default="./output.txt"
     )
     args = parser.parse_args()
-    
+
     while True:
         print("\n")
         exists_exc = os.path.exists(args.excel)
@@ -51,8 +29,12 @@ def main():
             print(">> Template file {} not found".format(args.template))
         try_again = input("\nDo you want to try again? [y/n] : ").lower()
         if try_again == "n":
-            exit()
-    phase_excel(args.excel, args.template, args.output)
+            exit(0)
+    with open(args.template) as f:
+        tmp = f.read()
+    out = x2tm_core.phase_excel(args.excel, tmp)
+    with open(args.output, "w") as f:
+        f.write(out)
     print("Done")
 
 

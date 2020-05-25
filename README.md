@@ -23,3 +23,12 @@ On POSIX
 ```bash
 python3 ./xlsx-to-text-mapper.py -x path/to/excel.xlsx -t path/to/template.txt -o path/to/output.txt
 ```
+
+## Dependencies
+
+This program uses: xlrd, tkinter
+
+```
+sudo apt install python3-tk
+pip3 install xlrd
+```
