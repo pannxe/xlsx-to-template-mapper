@@ -1,19 +1,24 @@
 from tkinter import *
 from tkinter import scrolledtext, filedialog, messagebox
 from gui_txt import *
-from x2tm_core import phase_excel
+from x2tm_core import parse_excel
 
 
 exc_path = "./data.xlsx"
 
-def on_out_mult_pressed():
-    messagebox.showinfo('ผ ผ ผ ผิดพลาดดดด','ปุ่มนี้ยังไช้ไม่ได้ค้าบบ')
 
-def on_phase_btn_pressed():
+def on_out_mult_pressed():
+    messagebox.showinfo(DIALOG_ERROR_TITLE, ERROR_WIP)
+
+
+def on_parse_btn_pressed():
     tmp = template_box.get(1.0, END)
-    phased = phase_excel(exc_path, tmp)
-    preview_box.delete(1.0, END)
-    preview_box.insert(INSERT, phased)
+    try:
+        parsed = parse_excel(exc_path, tmp)
+        preview_box.delete(1.0, END)
+        preview_box.insert(INSERT, parsed)
+    except:
+        messagebox.showinfo(DIALOG_ERROR_TITLE, ERROR_CANNOT_PARSE)
 
 
 def on_xlsx_btn_pressed():
@@ -27,24 +32,24 @@ def on_xlsx_btn_pressed():
         ),
     )
 
+
 def on_temp_btn_pressed():
     temp_path = filedialog.askopenfilename(
         title=TEMP_IMPORT_DIALOG_TITLE,
         filetypes=(("Text", "*.txt"), ("All files", "*.*")),
     )
-    with open(temp_path) as f:
+    with open(temp_path, encoding="utf8") as f:
         temp = f.read()
     template_box.delete(1.0, END)
     template_box.insert(INSERT, temp)
 
+
 def on_out_sing_pressed():
     f_path = filedialog.asksaveasfilename(
-        title=EXPORT_DIALOG_TITLE,
-        filetypes=(("Text", "*.txt"), ("All files", "*.*")),
+        title=EXPORT_DIALOG_TITLE, filetypes=(("Text", "*.txt"), ("All files", "*.*")),
     )
     with open(f_path, "w") as f:
         f.write(preview_box.get(1.0, END))
-
 
 
 # initialization
@@ -70,17 +75,21 @@ output_btn_fm = Frame(output_fm)
 output_btn_fm.grid(column=0, row=2)
 
 phase_btn = Button(
-    output_btn_fm, text=PHASE_BTN, bg="green", command=on_phase_btn_pressed
+    output_btn_fm, text=PHASE_BTN, bg="green", command=on_parse_btn_pressed
 )
 phase_btn.grid(column=0, row=0)
 
 output_btn_lb = Label(output_btn_fm, text=OUTPUT_BTN_LB)
 output_btn_lb.grid(column=1, row=0, padx=10)
 
-output_sing_btn = Button(output_btn_fm, text=OUTPUT_SING_BT, command=on_out_sing_pressed)
+output_sing_btn = Button(
+    output_btn_fm, text=OUTPUT_SING_BT, command=on_out_sing_pressed
+)
 output_sing_btn.grid(column=2, row=0)
 
-output_sing_btn = Button(output_btn_fm, text=OUTPUT_MULT_BT, command=on_out_mult_pressed)
+output_sing_btn = Button(
+    output_btn_fm, text=OUTPUT_MULT_BT, command=on_out_mult_pressed
+)
 output_sing_btn.grid(column=3, row=0)
 
 # texplate text box
