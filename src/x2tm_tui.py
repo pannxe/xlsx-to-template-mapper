@@ -1,8 +1,9 @@
 #!/usr/bin/python3
 
 import argparse
-import x2tm_core 
+import x2tm_core
 import os
+
 
 def main():
     parser = argparse.ArgumentParser()
