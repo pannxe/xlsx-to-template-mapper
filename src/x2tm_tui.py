@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 import argparse
-import x2tm_core
+from core.parser import parse_excel
 import os
 
 
@@ -33,7 +33,7 @@ def main():
             exit(0)
     with open(args.template) as f:
         tmp = f.read()
-    out = x2tm_core.phase_excel(args.excel, tmp)
+    out = parse_excel(args.excel, tmp)
     with open(args.output, "w") as f:
         f.write(out)
     print("Done")

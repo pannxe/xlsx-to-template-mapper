@@ -14,9 +14,7 @@ def parse_excel(exc, tmp):
         for j in range(sheet.ncols):
             rp = str(sheet.cell_value(i, j))
             if rp.endswith(".0"):
-                rp = rp[:len(rp)-2]
-            s = s.replace(
-                f"[{str(sheet.cell_value(0, j))}]", rp
-            )
+                rp = rp[: len(rp) - 2]
+            s = s.replace(f"[{str(sheet.cell_value(0, j))}]", rp)
         out += s + "\n"
     return out
